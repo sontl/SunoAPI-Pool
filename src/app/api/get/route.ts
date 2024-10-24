@@ -1,5 +1,5 @@
 import { NextResponse, NextRequest } from "next/server";
-import { sunoApi } from "@/lib/SunoApi";
+import { getSunoApi } from "@/lib/SunoApi";
 import { corsHeaders } from "@/lib/utils";
 
 export const dynamic = "force-dynamic";
@@ -12,9 +12,9 @@ export async function GET(req: NextRequest) {
       let audioInfo = [];
       if (songIds && songIds.length > 0) {
         const idsArray = songIds.split(',');
-        audioInfo = await (await sunoApi).get(idsArray);
+        audioInfo = await (await getSunoApi()).get(idsArray);
       } else {
-        audioInfo = await (await sunoApi).get();
+        audioInfo = await (await getSunoApi()).get();
       }
 
       return new NextResponse(JSON.stringify(audioInfo), {

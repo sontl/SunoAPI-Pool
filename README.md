@@ -108,7 +108,24 @@ SUNO_COOKIE=<your-cookie>
 
 it means the program is running normally.
 
-### 5. Use Suno API
+### 5. Manually Initialize Cookie Pool (Optional)
+
+If you need to manually add cookies to the pool after the initial setup, you can use the following command:
+
+- For local development:
+
+  ```bash
+  npm run manual-init-cookie "<your-cookie-value>"
+  ```
+
+- If using Docker:
+  ```bash
+  docker-compose exec suno-api npm run manual-init-cookie "<your-cookie-value>"
+  ```
+
+This will add the specified cookie to the pool without affecting the startup process of your application or Docker containers.
+
+### 6. Use Suno API
 
 You can check out the detailed API documentation at :
 [suno.gcui.ai/docs](https://suno.gcui.ai/docs)

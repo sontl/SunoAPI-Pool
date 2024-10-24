@@ -1,5 +1,5 @@
 import { NextResponse, NextRequest } from "next/server";
-import { DEFAULT_MODEL, sunoApi } from "@/lib/SunoApi";
+import { DEFAULT_MODEL, getSunoApi } from "@/lib/SunoApi";
 import { corsHeaders } from "@/lib/utils";
 
 export const dynamic = "force-dynamic";
@@ -32,7 +32,8 @@ export async function POST(req: NextRequest) {
     }
 
 
-    const audioInfo = await (await sunoApi).generate(userMessage.content, true, DEFAULT_MODEL, true);
+    const sunoApi = await getSunoApi();
+    const audioInfo = await sunoApi.generate(userMessage.content, true, DEFAULT_MODEL, true);
 
     const audio = audioInfo[0]
     const data = `## Song Title: ${audio.title}\n![Song Cover](${audio.image_url})\n### Lyrics:\n${audio.lyric}\n### Listen to the song: ${audio.audio_url}`

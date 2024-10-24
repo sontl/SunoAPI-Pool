@@ -8,13 +8,17 @@
   "license": "LGPL-3.0-or-later",
   "version": "1.1.0",
   "private": true,
+  "type": "module",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "init-cookie-pool": "ts-node src/scripts/initCookiePool.ts",
-    "list-cookies": "ts-node src/scripts/listCookies.ts"
+    "prisma:generate": "prisma generate",
+    "prisma:migrate": "prisma migrate deploy",
+    "init-cookie-pool": "npm run prisma:generate && npm run prisma:migrate && node --loader ts-node/esm src/scripts/initCookiePool.ts",
+    "manual-init-cookie": "node --loader ts-node/esm src/scripts/initCookiePool.ts",
+    "list-cookies": "npm run prisma:generate && node --loader ts-node/esm src/scripts/listCookies.ts"
   },
   "dependencies": {
     "@types/pg": "^8.11.10",
@@ -31,7 +35,10 @@
     "react-markdown": "^9.0.1",
     "swagger-ui-react": "^5.12.3",
     "tough-cookie": "^4.1.4",
-    "user-agents": "^1.1.156"
+    "ts-node": "^10.9.2",
+    "user-agents": "^1.1.156",
+    "@prisma/client": "^5.0.0",
+    "prisma": "^5.0.0"
   },
   "devDependencies": {
     "@tailwindcss/typography": "^0.5.12",

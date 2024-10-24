@@ -12,8 +12,8 @@ interface Cookie {
   credits_left: number;
   monthly_usage: number;
   monthly_limit: number;
+  account: string;
 }
-
 export class CookiePool {
   private pool: Pool;
 
@@ -39,7 +39,8 @@ export class CookiePool {
           date_updated TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
           credits_left INTEGER DEFAULT 0,
           monthly_usage INTEGER DEFAULT 0,
-          monthly_limit INTEGER DEFAULT 0
+          monthly_limit INTEGER DEFAULT 0,
+          account TEXT DEFAULT ''
         )
       `);
     } finally {
@@ -71,7 +72,6 @@ export class CookiePool {
       client.release();
     }
   }
-
   async updateCookieStatus(id: number, status: 'VALID' | 'INVALID'): Promise<void> {
     const client = await this.pool.connect();
     try {
@@ -106,5 +106,4 @@ export class CookiePool {
     }
   }
 }
-
 export const cookiePool = new CookiePool();

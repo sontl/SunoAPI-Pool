@@ -1,19 +1,20 @@
-import { cookiePool } from '../lib/CookiePool';
+import { PrismaClient } from '@prisma/client'
+
+const prisma = new PrismaClient()
 
 async function initializeCookiePool() {
-  await cookiePool.initialize();
-
-  const cookies = process.argv.slice(2);
-  if (cookies.length === 0) {
-    console.log('No cookies provided. Usage: npm run init-cookie-pool <cookie1> <cookie2> ...');
-    return;
+  const cookie = process.argv[2]
+  if (!cookie) {
+    console.log('No cookie provided. Usage: npm run init-cookie-pool "<cookie>"')
+    return
   }
 
-  for (const cookie of cookies) {
-    await cookiePool.addCookie(cookie.trim());
-  }
-
-  console.log(`${cookies.length} cookie(s) added to the pool successfully`);
+  await prisma.cookie.create({
+    data: { value: cookie.trim() }
+  })
+  console.log('Cookie added to the pool successfully')
 }
 
-initializeCookiePool().catch(console.error);
+initializeCookiePool().catch(console.error).finally(async () => {
+  await prisma.$disconnect()
+})
